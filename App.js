@@ -107,19 +107,6 @@ export default function App() {
               )
             })} />
 
-          <HomeNavigator.Screen 
-            name={"LibraryHours"} 
-            component={LibraryHours} 
-            options={({navigation}) => ({
-              headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                  <View style={styles.headerRight}>
-                    <Text style = {styles.text}>Home</Text>
-                    <FontAwesome name="home" size={24} color="black" />
-                  </View>
-                </TouchableOpacity>
-              )
-            })} />
 
         </HomeNavigator.Navigator>
       </NavigationContainer>
