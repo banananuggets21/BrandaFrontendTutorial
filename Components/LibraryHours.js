@@ -2,21 +2,16 @@ import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 
 export default function LibraryHours() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
-      fetch("http://brandaserver.herokuapp.com/getinfo/libraryHours/week")
-        .then((response) => response.json( ))
-        .then((json) => {
-          setData(json);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-    fetchData();
-  },[]);
+        const response = await fetch("http://brandaserver.herokuapp.com/getinfo/libraryHours/week");
+        const json = await response.json();
+        setData(json);
+      }
+      fetchData();
+  }, []);
 
   const renderLocation = ({item}) => (
     <View>
@@ -33,21 +28,23 @@ export default function LibraryHours() {
     </View>
   );
 
-  const renderDay = ({item}) => (
-    <View style={styles}>
-      <View style={styles.item_day}>
-        <Text style={{fontSize:18,color:"white"}}>{item.day}, {item.date}</Text>
-      </View>
-      <View style={styles.item_location}>
-        <FlatList
-          data={item.hours}
-          renderItem={renderLocation}
-          keyExtractor={item => item.location}
-        />  
-      </View>
-       
-    </View>
-  );
+  const renderItem = ({item}) => {
+    const list = () => {
+      return item.hours.map((element) => {
+        var text =JSON.stringify(element.times.hours);
+        if(text!=undefined){
+          text = text.replace(/[{"\[\],}]/g, "");
+          text = text.replace(/to:/g,"-");
+          text = text.replace(/from:/g,"");
+        }
+        return (
+          <DataTable.Row key={element.location} style={{flex:1,textAlign:"right"}}>
+            <DataTable.Cell style={{flex:"1",justifyContent:"flex-start"}}>{element.location}</DataTable.Cell>
+            <DataTable.Cell style={{flex:"0.5",justifyContent:"flex-end"}}>{text}</DataTable.Cell>
+          </DataTable.Row>
+        );
+      });
+    };
   
   return (
     
@@ -55,7 +52,8 @@ export default function LibraryHours() {
       {/* <Text>{JSON.stringify(data)}</Text> */}
       <FlatList
         data={data}
-        renderItem={renderDay}
+        renderItem={renderItem}
+        renderLocation={renderLocation}
         keyExtractor={item => item.day}
       />
     </View>
@@ -63,25 +61,4 @@ export default function LibraryHours() {
 
   
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    padding: 5,
-    marginVertical: 5,
-    marginHorizontal: 5,
-  },
-
-  item_day: {
-    backgroundColor: "#483d8b",
-    marginVertical: 5,
-    padding:5
-  },
-
-  item_location: {
-    backgroundColor: "#6a5acd",
-    padding:5
-  },
-});
+}

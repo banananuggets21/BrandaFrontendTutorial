@@ -3,9 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList } from "react-native
 import { Provider as PaperProvider, Button, Checkbox } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-
+import { AntDesign } from "@expo/vector-icons"
 import About from "./components/About";
 import ItemDetail from "./components/ItemDetail";
 import LibraryHours from "./components/LibraryHours";
@@ -104,7 +102,6 @@ export default function App() {
                 <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                   <View style={styles.headerRight}>
                     <Text style = {styles.text}>Home</Text>
-                    <FontAwesome name="home" size={24} color="black" />
                   </View>
                 </TouchableOpacity>
               )
@@ -124,8 +121,6 @@ export default function App() {
               )
             })} />
 
-          <HomeNavigator.Screen name={"Item Detail"} component={ItemDetail}/>
-
         </HomeNavigator.Navigator>
       </NavigationContainer>
     </PaperProvider>
@@ -133,37 +128,15 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  container:{
+    flex:0.75,
+    flexDirection:"row",
+    justifyContent:"flex-end",
+    left:35,
   },
-
-  headerRight: {
+  about:{
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems:"center",
     
-  },
-
-  text: {
-    fontSize:18,  
-    padding:3 
-  },
-
-  button: {
-    margin:3
-  },
-
-  item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-    marginVertical: 5,
-    marginHorizontal: 10,
-  },
-
-  checkbox: {
-    alignSelf: "center",
-  },
+  } ,
 });
